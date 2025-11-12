@@ -1,26 +1,35 @@
 from library_books import library_books as library_books
 from datetime import datetime, timedelta, date
 
-class book:
-    def __init__(self, id, title, genre, available, due_date, checkouts):
+class Book:
+    def __init__(self, id, title, author, genre, available, due_date, checkouts):
         self.id = id
         self.title = title
+        self.author = author
         self.genre = genre
-        self.avaiable = available
+        self.available = available
         self.due_date = due_date
         self.checkouts = checkouts
 
-class library:
+
+bookList = []
+
+for aBook in library_books:
+    book = Book(aBook['id'], aBook['title'], aBook['author'], aBook['genre'], aBook['available'], aBook['due_date'], aBook['checkouts'])
+    bookList.append(book)
+
+
+class Options:
     # -------- Level 1 --------
     # TODO: Create a function to view all books that are currently available
     # Output should include book ID, title, and author
     def getBooks():
         print("The books available are: ")
-        for book in library_books:
+        for book in bookList:
             print()
-            print(f"Book: {book['id']}")
-            print(f"Title: {book['title']}")
-            print(f"Author: {book['author']}")
+            print(f"Book: {book.id}")
+            print(f"Title: {book.title}")
+            print(f"Author: {book.author}")
         
         print()
 
@@ -37,22 +46,18 @@ class library:
         if searchWord != "":
             print()
             print("Search Results: ")
-            for book in library_books:
-                if (searchWord in book['author'].lower()) or (searchWord in book['genre'].lower()):
+            for book in bookList:
+                if (searchWord in (book.author).lower()) or (searchWord in (book.genre).lower()):
                     print()
-                    print(f"Book: {book['id']}")
-                    print(f"Title: {book['title']}")
-                    print(f"Author: {book['author']}")
+                    print(f"Book: {book.id}")
+                    print(f"Title: {book.title}")
+                    print(f"Author: {book.author}")
                     booksFound = True
             if booksFound == False:
                 print(f"Sorry, no books were found matching {searchWord}")
             print()
         else:
             print("Sorry, please enter a valid input next time!")
-
-
-    #searchBook()
-
 
 
 
@@ -72,21 +77,20 @@ class library:
         newDate = ''
         printed = False
         if bookChoice != "":
-            for book in library_books:
-                if (bookChoice == book['id'].lower()):
-                    checkOutBook = book['title']
+            for book in bookList:
+                if (bookChoice == (book.id).lower()):
+                    checkOutBook = book.title
                     print()
-                    if book['available'] == True:
+                    if book.available == True:
                         print(f"Yes, we have {checkOutBook}!")
-                        book['available'] = False
+                        book.available = False
                         todayDate = date.today()
                         newDate = todayDate + timedelta(days = 14)
-                        book['due_date'] = newDate.strftime("%Y-%m-%d")
-                        book['checkouts'] = book['checkouts'] + 1
+                        book.due_date = newDate.strftime("%Y-%m-%d")
+                        book.checkouts = book.checkouts + 1
                         print(f"The book will be due on {newDate}")
                         available = True
                         printed = True
-                        return
                     break
         else:
             print("Sorry, please enter a valid input next time.")
@@ -110,12 +114,12 @@ class library:
         bookID = input("What is the ID of the book? ").lower()
         fixed = False
         if bookID != "":
-            for book in library_books:
-                if (bookID == book['id'].lower()):
-                    book['available'] = True
-                    book['due_date'] = None
+            for book in bookList:
+                if (bookID == (book.id).lower()):
+                    book.available = True
+                    book.due_date = None
                     fixed = True
-                    print(f"{book['title']} had been successfully returned!")
+                    print(f"{book.title} had been successfully returned!")
                     break
             
             if fixed == False:
@@ -132,19 +136,37 @@ class library:
 
     def viewOverdue():
         fixed = False
-        for book in library_books:
-            if (book['due_date'] != None):
-                bookDate = datetime.strptime(book['due_date'], "%Y-%m-%d").date()
-                if (bookDate < date.today()) and (book['available'] == False):
+        print()
+        count = 0
+        count2 = 0
+        for book in bookList:
+            if (book.due_date != None):
+                bookDate = datetime.strptime(book.due_date, "%Y-%m-%d").date()
+                if (bookDate < date.today()) and (book.available == False):
+                    if count<1:
+                        print("The books overdue are: ")
                     print()
-                    print("The books overdue are: ")
-                    print()
-                    print(book['id'])
-                    print(book['title'])
-                    print(book['author'])
-                    print(book['genre'])
+                    print(book.id)
+                    print(book.title)
+                    print(book.author)
+                    print(book.genre)
                     print(f"It was due on {bookDate}")
                     fixed = True
+                    count+=1
+                    continue
+                if (bookDate == date.today()) and (book.available == False):
+                    print()
+                    print()
+                    if count2<1:
+                        print("You have a book due today!")
+                    print(book.id)
+                    print(book.title)
+                    print(book.author)
+                    print(book.genre)
+                    print()
+                    fixed = True
+                    count2+=1
+                    continue
         if fixed == False:
             print("You have no overdue books!")
 
@@ -152,17 +174,17 @@ class library:
 
     def viewTopThree():
         countList = []
-        for book in library_books:
-            countList.append(book['checkouts'])
+        for book in bookList:
+            countList.append(book.checkouts)
         
         finalBookList = []
         finalCountList = []
         countList.sort(reverse=True)
-        for i in range(len(library_books)):
-            for book in library_books:
-                if (countList[i] == book['checkouts']) and (book['title'] not in finalBookList):
-                    finalBookList.append(book['title'])
-                    finalCountList.append(book['checkouts'])
+        for i in range(len(bookList)):
+            for book in bookList:
+                if (countList[i] == book.checkouts) and (book.title not in finalBookList):
+                    finalBookList.append(book.title)
+                    finalCountList.append(book.checkouts)
                     break
 
         topOneB = finalBookList[0]
@@ -210,22 +232,22 @@ def runLibrary():
         userChoice = input("Please enter your choice: ")
 
         if userChoice == "1":
-            library.getBooks()
+            Options.getBooks()
             print()
         elif userChoice == "2":
-            library.searchBook()
+            Options.searchBook()
             print()
         elif userChoice == "3":
-            library.checkOut()
+            Options.checkOut()
             print()
         elif userChoice == "4":
-            library.returnBook()
+            Options.returnBook()
             print()
         elif userChoice == "5":
-            library.viewOverdue()
+            Options.viewOverdue()
             print()
         elif userChoice == "6":
-            library.viewTopThree()
+            Options.viewTopThree()
             print()
         elif userChoice == "7":
             print("Thanks for visiting the online library!")
