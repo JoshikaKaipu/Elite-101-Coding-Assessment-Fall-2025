@@ -11,15 +11,6 @@ class Book:
         self.due_date = due_date
         self.checkouts = checkouts
 
-
-bookList = []
-
-for aBook in library_books:
-    book = Book(aBook['id'], aBook['title'], aBook['author'], aBook['genre'], aBook['available'], aBook['due_date'], aBook['checkouts'])
-    bookList.append(book)
-
-
-class Options:
     # -------- Level 1 --------
     # TODO: Create a function to view all books that are currently available
     # Output should include book ID, title, and author
@@ -32,8 +23,6 @@ class Options:
             print(f"Author: {book.author}")
         
         print()
-
-
 
     # -------- Level 2 --------
     # TODO: Create a function to search books by author OR genre
@@ -69,40 +58,39 @@ class Options:
     #   - Increment the checkouts counter
     # If it is not available:
     #   - Print a message saying it's already checked out
-
-    def checkOut():
-        bookChoice = input("What is the ID of the book you would like to check out? ").lower()
-        available = False
-        checkOutBook = ""
-        newDate = ''
-        printed = False
-        if bookChoice != "":
-            for book in bookList:
-                if (bookChoice == (book.id).lower()):
-                    checkOutBook = book.title
-                    print()
-                    if book.available == True:
-                        print(f"Yes, we have {checkOutBook}!")
-                        book.available = False
-                        todayDate = date.today()
-                        newDate = todayDate + timedelta(days = 14)
-                        book.due_date = newDate.strftime("%Y-%m-%d")
-                        book.checkouts = book.checkouts + 1
-                        print(f"The book will be due on {newDate}")
-                        available = True
-                        printed = True
-                    break
-        else:
-            print("Sorry, please enter a valid input next time.")
-            printed = True
-        
-        if printed != True:
-            if available == False and checkOutBook != "":
-                print(f"Sorry, we don't have {checkOutBook} as it has already been checked out.")
+    def checkout():
+            bookChoice = input("What is the ID of the book you would like to check out? ").lower()
+            available = False
+            checkOutBook = ""
+            newDate = ''
+            printed = False
+            if bookChoice != "":
+                for book in bookList:
+                    if (bookChoice == (book.id).lower()):
+                        checkOutBook = book.title
+                        print()
+                        if book.available == True:
+                            print(f"Yes, we have {checkOutBook}!")
+                            book.available = False
+                            todayDate = date.today()
+                            newDate = todayDate + timedelta(days = 14)
+                            book.due_date = newDate.strftime("%Y-%m-%d")
+                            book.checkouts = book.checkouts + 1
+                            print(f"The book will be due on {newDate}")
+                            available = True
+                            printed = True
+                        break
             else:
-                print("Sorry, we don't have a book with that id.")
+                print("Sorry, please enter a valid input next time.")
+                printed = True
+            
+            if printed != True:
+                if available == False and checkOutBook != "":
+                    print(f"Sorry, we don't have {checkOutBook} as it has already been checked out.")
+                else:
+                    print("Sorry, we don't have a book with that id.")
 
-        print()
+            print()
         
     #checkOut()
 
@@ -110,7 +98,7 @@ class Options:
     # TODO: Create a function to return a book by ID
     # Set its availability to True and clear the due_date
 
-    def returnBook():
+    def return_book():
         bookID = input("What is the ID of the book? ").lower()
         fixed = False
         if bookID != "":
@@ -215,12 +203,19 @@ class Options:
         # You can use this space to test your functions
         pass
 
+bookList = []
 
+for aBook in library_books:
+    book = Book(aBook['id'], aBook['title'], aBook['author'], aBook['genre'], aBook['available'], aBook['due_date'], aBook['checkouts'])
+    bookList.append(book)
 
 
 def runLibrary():
     print("Welcome to the library!")
     while (True):
+        print()
+        print("****************************")
+        print()
         print("1. View Available Books")
         print("2. Search")
         print("3. Checkout")
@@ -232,22 +227,22 @@ def runLibrary():
         userChoice = input("Please enter your choice: ")
 
         if userChoice == "1":
-            Options.getBooks()
+            Book.getBooks()
             print()
         elif userChoice == "2":
-            Options.searchBook()
+            Book.searchBook()
             print()
         elif userChoice == "3":
-            Options.checkOut()
+            Book.checkout()
             print()
         elif userChoice == "4":
-            Options.returnBook()
+            Book.return_book()
             print()
         elif userChoice == "5":
-            Options.viewOverdue()
+            Book.viewOverdue()
             print()
         elif userChoice == "6":
-            Options.viewTopThree()
+            Book.viewTopThree()
             print()
         elif userChoice == "7":
             print("Thanks for visiting the online library!")
