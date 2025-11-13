@@ -14,6 +14,13 @@ class Book:
     # -------- Level 1 --------
     # TODO: Create a function to view all books that are currently available
     # Output should include book ID, title, and author
+
+    #Level One:
+    # Write a function that prints the dictionary of books available
+    # Print them in a way that is easy to read
+    # Use a for loop to loop through the dictionary
+
+    #Displays all the books in the library
     def getBooks():
         print("The books available are: ")
         for book in bookList:
@@ -29,6 +36,7 @@ class Book:
     # Search should be case-insensitive
     # Return a list of matching books
 
+    #Displays the search results from the keyword
     def searchBook():
         searchWord = input("What author or genre are you looking for? ").lower()
         booksFound = False
@@ -58,6 +66,8 @@ class Book:
     #   - Increment the checkouts counter
     # If it is not available:
     #   - Print a message saying it's already checked out
+
+    #Allows the user to checkout a book
     def checkout():
             bookChoice = input("What is the ID of the book you would like to check out? ").lower()
             available = False
@@ -98,6 +108,7 @@ class Book:
     # TODO: Create a function to return a book by ID
     # Set its availability to True and clear the due_date
 
+    #Allows the user to return a book by the ID
     def return_book():
         bookID = input("What is the ID of the book? ").lower()
         fixed = False
@@ -122,6 +133,7 @@ class Book:
     # TODO: Create a function to list all overdue books
     # A book is overdue if its due_date is before today AND it is still checked out
 
+    #Allows the user to view the overdue books with the day
     def viewOverdue():
         fixed = False
         print()
@@ -158,8 +170,9 @@ class Book:
         if fixed == False:
             print("You have no overdue books!")
 
-    #viewOverdue()
 
+
+    #Displays the top three books with the checkout numbers
     def viewTopThree():
         countList = []
         for book in bookList:
@@ -203,6 +216,8 @@ class Book:
         # You can use this space to test your functions
         pass
 
+
+#Refactors the books to objects not dictionaries
 bookList = []
 
 for aBook in library_books:
@@ -210,6 +225,7 @@ for aBook in library_books:
     bookList.append(book)
 
 
+#The function to ask the user for thier input and run all the functions
 def runLibrary():
     print("Welcome to the library!")
     while (True):
@@ -227,22 +243,22 @@ def runLibrary():
         userChoice = input("Please enter your choice: ")
 
         if userChoice == "1":
-            Book.getBooks()
+            Book.getBooks()  #Displays all the books
             print()
         elif userChoice == "2":
-            Book.searchBook()
+            Book.searchBook()  #Displays the results from the search keyword
             print()
         elif userChoice == "3":
-            Book.checkout()
+            Book.checkout()  #Allows the user to checkout a book
             print()
         elif userChoice == "4":
-            Book.return_book()
+            Book.return_book()  #Allows the user to return a book
             print()
         elif userChoice == "5":
-            Book.viewOverdue()
+            Book.viewOverdue()  #Displays the overdue books with the date
             print()
         elif userChoice == "6":
-            Book.viewTopThree()
+            Book.viewTopThree() #Displays the top three books
             print()
         elif userChoice == "7":
             print("Thanks for visiting the online library!")
@@ -252,42 +268,8 @@ def runLibrary():
             print("Please try again and enter with a valid input.")
             print()
 
-runLibrary()
+runLibrary()   #Runs the function to run all the other functions
 
-
-'''
-1. Write all the functions
-2. Code placeholders in each function that give the overall function
-3. Work on each function
-4. Continue for all the functions
-5. Group them into a file that calls them at the user's request
-6. Run and test the code between each new function and check if it works
-
-Function One:
-
-Level One:
-Write a function that prints the dictionary of books available
-Print them in a way that is easy to read
-Use a for loop to loop through the dictionary
-'''
-
-'''
-Move on to the 'Solve' phase of UCASE by implementing your Level 1 solution.
-Use your pseudocode and planning from the previous section as a guide.
-Focus: list all available books (print ID, title, author).
-Test your code using library_books from library_books.py.
-Guidelines:
-
-Write clear and concise code. Keep your functions well-structured and easy to read. (e.g., get_available_books(data) and print_available_books(books)).
-Use comments to explain your logic. Clearly describe what each function does.
-Debug systematically. If you encounter issues, check your logic and review each step
-Tips:
-
-Start Simple: Begin by writing a function that lists all available books (ID, title, author).
-Iterate Through Data: Loop through the library_books list and check each book’s available status
-Testing: Test your code at each step.
-
-'''
 
 '''
 Sources:
